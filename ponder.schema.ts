@@ -1,8 +1,10 @@
 import { createSchema } from "@ponder/core";
 
 export default createSchema((p) => ({
-  Account: p.createTable({
+  Deposit: p.createTable({
     id: p.hex(),
-    balance: p.bigint(),
-  }),
+    amount: p.bigint(),
+    to: p.hex(),
+    tokenPool: p.hex(),
+  })
 }));

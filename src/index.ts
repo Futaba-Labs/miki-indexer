@@ -1,15 +1,16 @@
 import { ponder } from "@/generated";
 
-ponder.on("weth9:Deposit", async ({ event, context }) => {
-  const { Account } = context.db;
+ponder.on("l2AssetManager:AddDeposits", async ({ event, context }) => {
+  const { Deposit } = context.db;
 
-  await Account.upsert({
-    id: event.args.dst,
-    create: {
-      balance: event.args.wad,
-    },
-    update: ({ current }) => ({
-      balance: current.balance + event.args.wad,
-    }),
+  console.log(event.args)
+
+  await Deposit.create({
+    id: event.transaction.hash,
+    data: {
+      amount: event.args.amount,
+      to: event.args.user,
+      tokenPool: event.args.tokenPool
+    }
   });
 });

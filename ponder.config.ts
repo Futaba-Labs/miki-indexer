@@ -1,74 +1,81 @@
 import { createConfig } from "@ponder/core";
 import { http, createPublicClient } from "viem";
 
-import { weth9Abi } from "./abis/weth9Abi";
+import {
+  l2AssetManagerAbi
+} from "./abis/l2AssetManagerAbi";
+import { ethTokenPoolAbi } from "./abis/ethTokenPoolAbi";
+import { mikiReceiverAbi } from "./abis/mikiReceiverAbi";
 
-const latestBlockMainnet = await createPublicClient({
-  transport: http(process.env.PONDER_RPC_URL_1),
+// mainnet
+// const latestBlockMainnet = await createPublicClient({
+//   transport: http(process.env.PONDER_RPC_URL_1),
+// }).getBlock();
+// const latestBlockBase = await createPublicClient({
+//   transport: http(process.env.PONDER_RPC_URL_8453),
+// }).getBlock();
+// const latestBlockOptimism = await createPublicClient({
+//   transport: http(process.env.PONDER_RPC_URL_10),
+// }).getBlock();
+// const latestBlockArbitrum = await createPublicClient({
+//   transport: http(process.env.PONDER_RPC_URL_42161),
+// }).getBlock();
+// const latestBlockPolygon = await createPublicClient({
+//   transport: http(process.env.PONDER_RPC_URL_137),
+// }).getBlock();
+
+// testnet
+const latestBlockArbitrumSepolia = await createPublicClient({
+  transport: http(process.env.PONDER_RPC_URL_ARBITURM_SEPOLIA),
 }).getBlock();
-const latestBlockBase = await createPublicClient({
-  transport: http(process.env.PONDER_RPC_URL_8453),
+const latestBlockOptimismSepolia = await createPublicClient({
+  transport: http(process.env.PONDER_RPC_URL_OPTIMISM_SEPOLIA),
 }).getBlock();
-const latestBlockOptimism = await createPublicClient({
-  transport: http(process.env.PONDER_RPC_URL_10),
-}).getBlock();
-const latestBlockArbitrum = await createPublicClient({
-  transport: http(process.env.PONDER_RPC_URL_42161),
-}).getBlock();
-const latestBlockPolygon = await createPublicClient({
-  transport: http(process.env.PONDER_RPC_URL_137),
+const latestBlockBaseSepolia = await createPublicClient({
+  transport: http(process.env.PONDER_RPC_URL_BASE_SEPOLIA),
 }).getBlock();
 
 export default createConfig({
   networks: {
-    mainnet: {
-      chainId: 1,
-      transport: http(process.env.PONDER_RPC_URL_1),
+    arbitrumSepolia: {
+      chainId: 421614,
+      transport: http(process.env.PONDER_RPC_URL_ARBITURM_SEPOLIA),
       pollingInterval: 15_000,
     },
-    base: {
-      chainId: 8453,
-      transport: http(process.env.PONDER_RPC_URL_8453),
+    optimismSepolia: {
+      chainId: 11155420,
+      transport: http(process.env.PONDER_RPC_URL_OPTIMISM_SEPOLIA),
       pollingInterval: 15_000,
     },
-    optimism: {
-      chainId: 10,
-      transport: http(process.env.PONDER_RPC_URL_10),
-      pollingInterval: 15_000,
-    },
-    arbitrum: {
-      chainId: 42161,
-      transport: http(process.env.PONDER_RPC_URL_42161),
-      pollingInterval: 15_000,
-    },
-    polygon: {
-      chainId: 137,
-      transport: http(process.env.PONDER_RPC_URL_137),
+    baseSepolia: {
+      chainId: 84532,
+      transport: http(process.env.PONDER_RPC_URL_BASE_SEPOLIA),
       pollingInterval: 15_000,
     },
   },
   contracts: {
-    weth9: {
-      abi: weth9Abi,
-      address: "0x4200000000000000000000000000000000000006",
+    l2AssetManager: {
+      abi: l2AssetManagerAbi,
+      network: "arbitrumSepolia",
+      address: "0x6165d02D9CC2ee9dE28e27Abb88A34297C09c4b0",
+      startBlock: Number(latestBlockArbitrumSepolia.number) - 60
+    },
+    ethTokenPool: {
+      abi: ethTokenPoolAbi,
+      network: "arbitrumSepolia",
+      address: "0xa94DB5cAafA10F28DA7633c361556B8399073a1f",
+      startBlock: Number(latestBlockArbitrumSepolia.number) - 60
+    },
+    mikiReceiver: {
+      abi: mikiReceiverAbi,
       network: {
-        mainnet: {
-          address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          startBlock: Number(latestBlockMainnet.number) - 65,
+        baseSepolia: {
+          address: "0x6165d02D9CC2ee9dE28e27Abb88A34297C09c4b0",
+          startBlock: Number(latestBlockBaseSepolia.number) - 60,
         },
-        base: {
-          startBlock: Number(latestBlockBase.number) - 60,
-        },
-        optimism: {
-          startBlock: Number(latestBlockOptimism.number) - 60,
-        },
-        arbitrum: {
-          address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
-          startBlock: Number(latestBlockArbitrum.number) - 240,
-        },
-        polygon: {
-          address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
-          startBlock: Number(latestBlockPolygon.number) - 200,
+        optimismSepolia: {
+          address: "0x6165d02D9CC2ee9dE28e27Abb88A34297C09c4b0",
+          startBlock: Number(latestBlockOptimismSepolia.number) - 60,
         },
       },
     },
