@@ -16,6 +16,18 @@ export default createSchema((p) => ({
     tokenPool: p.hex(),
     transactionHash: p.hex()
   }),
+  RequestTransaction: p.createTable({
+    id: p.string(),
+    hash: p.hex(),
+    from: p.hex(),
+    timestamp: p.bigint(),
+  }),
+  ResponseTransaction: p.createTable({
+    id: p.string(),
+    hash: p.hex(),
+    from: p.hex(),
+    timestamp: p.bigint(),
+  }),
   CrossChainExec: p.createTable({
     id: p.string(),
     sender: p.hex(),
@@ -24,20 +36,10 @@ export default createSchema((p) => ({
     fee: p.bigint(),
     to: p.hex(),
     asset: p.hex().optional(),
-    status: p.enum("Status")
-  }),
-  RequestTransaction: p.createTable({
-    id: p.string(),
-    hash: p.hex(),
-    from: p.hex(),
-    timestamp: p.bigint(),
-    crossChainExecId: p.string().references("CrossChainExec.id")
-  }),
-  ResponseTransaction: p.createTable({
-    id: p.string(),
-    hash: p.hex(),
-    from: p.hex(),
-    timestamp: p.bigint(),
-    crossChainExecId: p.string().references("CrossChainExec.id")
+    status: p.enum("Status"),
+    reqTransactionId: p.string().references("RequestTransaction.id"),
+    resTransactionId: p.string().references("ResponseTransaction.id").optional(),
+    reqTransaction: p.one("reqTransactionId"),
+    resTransaction: p.one("resTransactionId")
   }),
 }));

@@ -31,50 +31,46 @@ ponder.on("l2AssetManager:Withdraw", async ({ event, context }) => {
 ponder.on("ethTokenPool:CrossChainContractCall", async ({ event, context }) => {
   const { CrossChainExec, RequestTransaction } = context.db;
 
+  const { id } = await RequestTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: event.block.timestamp,
+    }
+  })
+
   await CrossChainExec.create({
     id: event.args.id,
     data: {
       sender: event.args.sender,
       dstChainId: event.args.dstChainId,
-      amount: undefined,
       fee: event.args.fee,
-      asset: undefined,
       to: event.args.recipient,
-      status: "PENDING"
+      status: "PENDING",
+      reqTransactionId: id
     }
   });
-
-  await RequestTransaction.create({
-    id: event.transaction.hash,
-    data: {
-      hash: event.transaction.hash,
-      from: event.transaction.from,
-      timestamp: event.block.timestamp,
-      crossChainExecId: event.args.id
-    }
-  })
 });
 
 ponder.on("mikiReceiver:SentMsg", async ({ event, context }) => {
   const { CrossChainExec, ResponseTransaction } = context.db;
 
-  console.log(event.args.id)
-
-  await CrossChainExec.update({
-    id: event.args.id,
-    data: {
-      status: "SUCCESS"
-    }
-  });
-
-  await ResponseTransaction.create({
+  const { id } = await ResponseTransaction.create({
     id: event.transaction.hash,
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
       timestamp: event.block.timestamp,
-      crossChainExecId: event.args.id
     }
   })
+
+  await CrossChainExec.update({
+    id: event.args.id,
+    data: {
+      status: "SUCCESS",
+      resTransactionId: id
+    }
+  });
 });
 

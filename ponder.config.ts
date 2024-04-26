@@ -57,13 +57,13 @@ export default createConfig({
     l2AssetManager: {
       abi: l2AssetManagerAbi,
       network: "arbitrumSepolia",
-      address: "0x6165d02D9CC2ee9dE28e27Abb88A34297C09c4b0",
+      address: "0x3D55f245D4c1b0515b902ed6765e01aF59bD4d99",
       startBlock: Number(latestBlockArbitrumSepolia.number) - 60
     },
     ethTokenPool: {
       abi: ethTokenPoolAbi,
       network: "arbitrumSepolia",
-      address: "0xae54DAE4a562e616a5B20078a4Be37798B1D70Ca",
+      address: "0x94693a510afdeA0724301A25a5dA0f350AB4F91e",
       startBlock: Number(latestBlockArbitrumSepolia.number) - 60
     },
     // mikiReceiver: {
@@ -76,11 +76,11 @@ export default createConfig({
       abi: mikiReceiverAbi,
       network: {
         baseSepolia: {
-          address: "0x4C149769B16c5cb3af7b3e2e546D77a760cEf6dc",
+          address: "0x75AB531ef3Fa35d52Ce7c2369b4381A62D90298d",
           startBlock: Number(latestBlockBaseSepolia.number) - 60,
         },
         optimismSepolia: {
-          address: "0x6EDCE65403992e310A62460808c4b910D972f10f",
+          address: "0x956cb7F2f3fC094dD4097484EFC93C818Ef7946E",
           startBlock: Number(latestBlockOptimismSepolia.number) - 60,
         },
       },
