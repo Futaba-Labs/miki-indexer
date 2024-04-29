@@ -47,6 +47,62 @@ ponder.on("ethTokenPool:CrossChainContractCall", async ({ event, context }) => {
       dstChainId: event.args.dstChainId,
       fee: event.args.fee,
       to: event.args.recipient,
+      message: event.args.data,
+      status: "PENDING",
+      reqTransactionId: id
+    }
+  });
+});
+
+ponder.on("ethTokenPool:CrossChainContractCallWithAsset", async ({ event, context }) => {
+  const { CrossChainExec, RequestTransaction } = context.db;
+
+  const { id } = await RequestTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: event.block.timestamp,
+    }
+  })
+
+  await CrossChainExec.create({
+    id: event.args.id,
+    data: {
+      sender: event.args.sender,
+      dstChainId: event.args.dstChainId,
+      to: event.args.recipient,
+      asset: event.args.asset,
+      fee: event.args.fee,
+      amount: event.args.amount,
+      message: event.args.data,
+      status: "PENDING",
+      reqTransactionId: id
+    }
+  });
+});
+
+ponder.on("ethTokenPool:CrossChainTransferAsset", async ({ event, context }) => {
+  const { CrossChainExec, RequestTransaction } = context.db;
+
+  const { id } = await RequestTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: event.block.timestamp,
+    }
+  })
+
+  await CrossChainExec.create({
+    id: event.args.id,
+    data: {
+      sender: event.args.sender,
+      dstChainId: event.args.dstChainId,
+      to: event.args.recipient,
+      asset: event.args.asset,
+      fee: event.args.fee,
+      amount: event.args.amount,
       status: "PENDING",
       reqTransactionId: id
     }
@@ -69,6 +125,72 @@ ponder.on("mikiReceiver:SentMsg", async ({ event, context }) => {
     id: event.args.id,
     data: {
       status: "SUCCESS",
+      resTransactionId: id
+    }
+  });
+});
+
+ponder.on("mikiReceiver:SentMsgAndToken", async ({ event, context }) => {
+  const { CrossChainExec, ResponseTransaction } = context.db;
+
+  const { id } = await ResponseTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: event.block.timestamp,
+    }
+  })
+
+  await CrossChainExec.update({
+    id: event.args.id,
+    data: {
+      status: "SUCCESS",
+      receiveAmount: event.args._amountLD,
+      resTransactionId: id
+    }
+  });
+});
+
+ponder.on("mikiReceiver:FailedMsg", async ({ event, context }) => {
+  const { CrossChainExec, ResponseTransaction } = context.db;
+
+  const { id } = await ResponseTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: event.block.timestamp,
+    }
+  })
+
+  await CrossChainExec.update({
+    id: event.args.id,
+    data: {
+      status: "ERROR",
+      error: event.args._reason,
+      resTransactionId: id
+    }
+  });
+});
+
+ponder.on("mikiReceiver:FailedMsgAndToken", async ({ event, context }) => {
+  const { CrossChainExec, ResponseTransaction } = context.db;
+
+  const { id } = await ResponseTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: event.block.timestamp,
+    }
+  })
+
+  await CrossChainExec.update({
+    id: event.args.id,
+    data: {
+      status: "ERROR",
+      error: event.args._reason,
       resTransactionId: id
     }
   });
