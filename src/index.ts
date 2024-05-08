@@ -9,7 +9,8 @@ ponder.on("l2AssetManager:AddDeposits", async ({ event, context }) => {
       amount: event.args.amount,
       to: event.args.user,
       tokenPool: event.args.tokenPool,
-      transactionHash: event.transaction.hash
+      transactionHash: event.transaction.hash,
+      timestamp: Number(event.block.timestamp)
     }
   });
 });
@@ -23,7 +24,8 @@ ponder.on("l2AssetManager:Withdraw", async ({ event, context }) => {
       amount: event.args.amount,
       to: event.args.user,
       tokenPool: event.args.tokenPool,
-      transactionHash: event.transaction.hash
+      transactionHash: event.transaction.hash,
+      timestamp: Number(event.block.timestamp)
     }
   });
 });
@@ -36,7 +38,7 @@ ponder.on("ethTokenPool:CrossChainContractCall", async ({ event, context }) => {
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
@@ -49,7 +51,8 @@ ponder.on("ethTokenPool:CrossChainContractCall", async ({ event, context }) => {
       to: event.args.recipient,
       message: event.args.data,
       status: "PENDING",
-      reqTransactionId: id
+      reqTransactionId: id,
+      timestamp: Number(event.block.timestamp)
     }
   });
 });
@@ -62,7 +65,7 @@ ponder.on("ethTokenPool:CrossChainContractCallWithAsset", async ({ event, contex
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
@@ -77,7 +80,8 @@ ponder.on("ethTokenPool:CrossChainContractCallWithAsset", async ({ event, contex
       amount: event.args.amount,
       message: event.args.data,
       status: "PENDING",
-      reqTransactionId: id
+      reqTransactionId: id,
+      timestamp: Number(event.block.timestamp)
     }
   });
 });
@@ -90,7 +94,7 @@ ponder.on("ethTokenPool:CrossChainTransferAsset", async ({ event, context }) => 
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
@@ -104,7 +108,8 @@ ponder.on("ethTokenPool:CrossChainTransferAsset", async ({ event, context }) => 
       fee: event.args.fee,
       amount: event.args.amount,
       status: "PENDING",
-      reqTransactionId: id
+      reqTransactionId: id,
+      timestamp: Number(event.block.timestamp)
     }
   });
 });
@@ -117,7 +122,7 @@ ponder.on("mikiReceiver:SentMsg", async ({ event, context }) => {
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
@@ -138,7 +143,7 @@ ponder.on("mikiReceiver:SentMsgAndToken", async ({ event, context }) => {
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
@@ -160,7 +165,7 @@ ponder.on("mikiReceiver:FailedMsg", async ({ event, context }) => {
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
@@ -182,7 +187,7 @@ ponder.on("mikiReceiver:FailedMsgAndToken", async ({ event, context }) => {
     data: {
       hash: event.transaction.hash,
       from: event.transaction.from,
-      timestamp: event.block.timestamp,
+      timestamp: Number(event.block.timestamp)
     }
   })
 
