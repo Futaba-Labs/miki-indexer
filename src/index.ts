@@ -42,15 +42,24 @@ ponder.on("ethTokenPool:CrossChainContractCall", async ({ event, context }) => {
     }
   })
 
-  await CrossChainExec.create({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
       sender: event.args.sender,
       dstChainId: event.args.dstChainId,
       fee: event.args.fee,
       to: event.args.recipient,
       message: event.args.data,
       status: "PENDING",
+      reqTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
+      sender: event.args.sender,
+      dstChainId: event.args.dstChainId,
+      fee: event.args.fee,
+      to: event.args.recipient,
+      message: event.args.data,
       reqTransactionId: id,
       timestamp: Number(event.block.timestamp)
     }
@@ -69,9 +78,9 @@ ponder.on("ethTokenPool:CrossChainContractCallWithAsset", async ({ event, contex
     }
   })
 
-  await CrossChainExec.create({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
       sender: event.args.sender,
       dstChainId: event.args.dstChainId,
       to: event.args.recipient,
@@ -80,6 +89,17 @@ ponder.on("ethTokenPool:CrossChainContractCallWithAsset", async ({ event, contex
       amount: event.args.amount,
       message: event.args.data,
       status: "PENDING",
+      reqTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
+      sender: event.args.sender,
+      dstChainId: event.args.dstChainId,
+      to: event.args.recipient,
+      asset: event.args.asset,
+      fee: event.args.fee,
+      amount: event.args.amount,
+      message: event.args.data,
       reqTransactionId: id,
       timestamp: Number(event.block.timestamp)
     }
@@ -98,9 +118,9 @@ ponder.on("ethTokenPool:CrossChainTransferAsset", async ({ event, context }) => 
     }
   })
 
-  await CrossChainExec.create({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
       sender: event.args.sender,
       dstChainId: event.args.dstChainId,
       to: event.args.recipient,
@@ -108,6 +128,16 @@ ponder.on("ethTokenPool:CrossChainTransferAsset", async ({ event, context }) => 
       fee: event.args.fee,
       amount: event.args.amount,
       status: "PENDING",
+      reqTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
+      sender: event.args.sender,
+      dstChainId: event.args.dstChainId,
+      to: event.args.recipient,
+      asset: event.args.asset,
+      fee: event.args.fee,
+      amount: event.args.amount,
       reqTransactionId: id,
       timestamp: Number(event.block.timestamp)
     }
@@ -126,9 +156,19 @@ ponder.on("mikiReceiver:SentMsg", async ({ event, context }) => {
     }
   })
 
-  await CrossChainExec.update({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
+      sender: event.args._srcAddress,
+      dstChainId: BigInt(0),
+      to: event.args._receiver,
+      status: "PENDING",
+      fee: BigInt(0),
+      reqTransactionId: id,
+      resTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
       status: "SUCCESS",
       resTransactionId: id
     }
@@ -147,9 +187,19 @@ ponder.on("mikiReceiver:SentMsgAndToken", async ({ event, context }) => {
     }
   })
 
-  await CrossChainExec.update({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
+      sender: event.args._srcAddress,
+      dstChainId: BigInt(0),
+      to: event.args._receiver,
+      status: "PENDING",
+      fee: BigInt(0),
+      reqTransactionId: id,
+      resTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
       status: "SUCCESS",
       receiveAmount: event.args._amountLD,
       resTransactionId: id
@@ -169,9 +219,19 @@ ponder.on("mikiReceiver:FailedMsg", async ({ event, context }) => {
     }
   })
 
-  await CrossChainExec.update({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
+      sender: event.args._srcAddress,
+      dstChainId: BigInt(0),
+      to: event.args._receiver,
+      status: "PENDING",
+      fee: BigInt(0),
+      reqTransactionId: id,
+      resTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
       status: "ERROR",
       error: event.args._reason,
       resTransactionId: id
@@ -191,9 +251,19 @@ ponder.on("mikiReceiver:FailedMsgAndToken", async ({ event, context }) => {
     }
   })
 
-  await CrossChainExec.update({
+  await CrossChainExec.upsert({
     id: event.args.id,
-    data: {
+    create: {
+      sender: event.args._srcAddress,
+      dstChainId: BigInt(0),
+      to: event.args._receiver,
+      status: "PENDING",
+      fee: BigInt(0),
+      reqTransactionId: id,
+      resTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
       status: "ERROR",
       error: event.args._reason,
       resTransactionId: id
