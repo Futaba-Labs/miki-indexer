@@ -64,18 +64,18 @@ export default createConfig({
       abi: ethTokenPoolAbi,
       network: "arbitrumSepolia",
       address: "0x6a509D7d555d041E606F6ff8b90f371c9a03Bfca",
-      startBlock: Number(latestBlockArbitrumSepolia.number) - 60
+      startBlock: 38464035
     },
     mikiReceiver: {
       abi: mikiReceiverAbi,
       network: {
         baseSepolia: {
           address: "0x3063E6ed87eE62337ca7c976EF4B6c4d941D013C",
-          startBlock: Number(latestBlockBaseSepolia.number) - 60,
+          startBlock: 9275776,
         },
         optimismSepolia: {
           address: "0x956cb7F2f3fC094dD4097484EFC93C818Ef7946E",
-          startBlock: Number(latestBlockOptimismSepolia.number) - 60,
+          startBlock: 11175082,
         },
       },
     },
