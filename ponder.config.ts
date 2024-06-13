@@ -28,6 +28,11 @@ export default createConfig({
       chainId: 5003,
       transport: http(process.env.PONDER_RPC_URL_MANTLE_SEPOLIA),
       pollingInterval: 15_000,
+    },
+    scrollSepolia: {
+      chainId: 534352,
+      transport: http(process.env.PONDER_RPC_URL_SCROLL_SEPOLIA),
+      pollingInterval: 15_000,
     }
   },
   contracts: {
@@ -57,6 +62,10 @@ export default createConfig({
         mantleSepolia: {
           address: "0x5a4Ae660c4efA96D4565cdBDD6B14Dfd643DE471",
           startBlock: 8103109
+        },
+        scrollSepolia: {
+          address: "0xb8459636a5d82e68D0562E8EDa9c86195E573300",
+          startBlock: 4637624,
         }
       },
     },
