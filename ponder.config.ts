@@ -33,6 +33,11 @@ export default createConfig({
       chainId: 534352,
       transport: http(process.env.PONDER_RPC_URL_SCROLL_SEPOLIA),
       pollingInterval: 15_000,
+    },
+    avalancheFuji: {
+      chainId: 43113,
+      transport: http(process.env.PONDER_RPC_URL_AVALANCHE_FUJI),
+      pollingInterval: 15_000,
     }
   },
   contracts: {
@@ -66,6 +71,10 @@ export default createConfig({
         scrollSepolia: {
           address: "0xb8459636a5d82e68D0562E8EDa9c86195E573300",
           startBlock: 4637624,
+        },
+        avalancheFuji: {
+          address: "0x5a4Ae660c4efA96D4565cdBDD6B14Dfd643DE471",
+          startBlock: 34145993,
         }
       },
     },
