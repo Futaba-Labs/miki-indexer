@@ -38,6 +38,11 @@ export default createConfig({
       chainId: 43113,
       transport: http(process.env.PONDER_RPC_URL_AVALANCHE_FUJI),
       pollingInterval: 15_000,
+    },
+    bnbTestnet: {
+      chainId: 97,
+      transport: http(process.env.PONDER_RPC_URL_AVALANCHE_FUJI),
+      pollingInterval: 15_000,
     }
   },
   contracts: {
@@ -75,6 +80,10 @@ export default createConfig({
         avalancheFuji: {
           address: "0x5a4Ae660c4efA96D4565cdBDD6B14Dfd643DE471",
           startBlock: 34145993,
+        },
+        bnbTestnet: {
+          address: "0x5a4Ae660c4efA96D4565cdBDD6B14Dfd643DE471",
+          startBlock: 41248658,
         }
       },
     },
