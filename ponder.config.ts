@@ -41,7 +41,7 @@ export default createConfig({
     },
     bnbTestnet: {
       chainId: 97,
-      transport: http(process.env.PONDER_RPC_URL_AVALANCHE_FUJI),
+      transport: http(process.env.PONDER_RPC_URL_BNB_TESTNET),
       pollingInterval: 15_000,
     }
   },
