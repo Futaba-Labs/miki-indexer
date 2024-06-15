@@ -8,6 +8,10 @@ import { ethTokenPoolAbi } from "./abis/ethTokenPoolAbi";
 import { mikiReceiverAbi } from "./abis/mikiReceiverAbi";
 
 export default createConfig({
+  database: {
+    kind: "postgres",
+    publishSchema: "indexer",
+  },
   networks: {
     arbitrumSepolia: {
       chainId: 421614,
