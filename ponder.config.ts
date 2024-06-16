@@ -1,5 +1,5 @@
 import { createConfig } from "@ponder/core";
-import { http, createPublicClient } from "viem";
+import { http } from "viem";
 
 import {
   l2AssetManagerAbi
@@ -8,10 +8,6 @@ import { ethTokenPoolAbi } from "./abis/ethTokenPoolAbi";
 import { mikiReceiverAbi } from "./abis/mikiReceiverAbi";
 
 export default createConfig({
-  database: {
-    kind: "postgres",
-    publishSchema: "indexer",
-  },
   networks: {
     arbitrumSepolia: {
       chainId: 421614,
@@ -46,6 +42,11 @@ export default createConfig({
     bnbTestnet: {
       chainId: 97,
       transport: http(process.env.PONDER_RPC_URL_BNB_TESTNET),
+      pollingInterval: 15_000,
+    },
+    blastSepolia: {
+      chainId: 168587773,
+      transport: http(process.env.PONDER_RPC_URL_BLAST_SEPOLIA),
       pollingInterval: 15_000,
     }
   },
@@ -88,6 +89,10 @@ export default createConfig({
         bnbTestnet: {
           address: "0x5a4Ae660c4efA96D4565cdBDD6B14Dfd643DE471",
           startBlock: 41248658,
+        },
+        blastSepolia: {
+          address: "0x5a4Ae660c4efA96D4565cdBDD6B14Dfd643DE471",
+          startBlock: 6918466
         }
       },
     },
