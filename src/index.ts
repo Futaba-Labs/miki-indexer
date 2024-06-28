@@ -271,3 +271,36 @@ ponder.on("mikiReceiver:FailedMsgAndToken", async ({ event, context }) => {
   });
 });
 
+ponder.on("mikiRouterReceiver:Transfer", async ({ event, context }) => {
+  const { CrossChainExec, ResponseTransaction } = context.db;
+
+  const { id } = await ResponseTransaction.create({
+    id: event.transaction.hash,
+    data: {
+      hash: event.transaction.hash,
+      from: event.transaction.from,
+      timestamp: Number(event.block.timestamp)
+    }
+  })
+
+  await CrossChainExec.upsert({
+    id: event.args.id,
+    create: {
+      sender: event.args.sender,
+      dstChainId: BigInt(0),
+      to: event.args.to,
+      status: "PENDING",
+      fee: BigInt(0),
+      amount: event.args.value,
+      reqTransactionId: id,
+      resTransactionId: id,
+      timestamp: Number(event.block.timestamp)
+    },
+    update: {
+      status: "SUCCESS",
+      receiveAmount: event.args.value,
+      resTransactionId: id
+    }
+  });
+});
+

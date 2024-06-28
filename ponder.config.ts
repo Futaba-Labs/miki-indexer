@@ -6,6 +6,7 @@ import {
 } from "./abis/l2AssetManagerAbi";
 import { ethTokenPoolAbi } from "./abis/ethTokenPoolAbi";
 import { mikiReceiverAbi } from "./abis/mikiReceiverAbi";
+import { mikiRouterReceiverAbi } from "./abis/mikiRouterReceiverAbi";
 
 export default createConfig({
   networks: {
@@ -47,6 +48,11 @@ export default createConfig({
     blastSepolia: {
       chainId: 168587773,
       transport: http(process.env.PONDER_RPC_URL_BLAST_SEPOLIA),
+      pollingInterval: 15_000,
+    },
+    zkSyncSepolia: {
+      chainId: 300,
+      transport: http(process.env.PONDER_RPC_URL_ZKSYNC_SEPOLIA),
       pollingInterval: 15_000,
     }
   },
@@ -96,5 +102,30 @@ export default createConfig({
         }
       },
     },
+    mikiRouterReceiver: {
+      abi: mikiRouterReceiverAbi,
+      network: {
+        baseSepolia: {
+          address: "0x3a4f0f1f1123080EE16b4B98A0e195816A519A84",
+          startBlock: 11896571,
+        },
+        optimismSepolia: {
+          address: "0xAEe4c88c930447e1c8eD0D170cfC828475b89ade",
+          startBlock: 13879469,
+        },
+        scrollSepolia: {
+          address: "0x5C9e69CD328af88374cD99880e3D62C3D0FD07be",
+          startBlock: 5017955,
+        },
+        blastSepolia: {
+          address: "0x1d706641006fE1B861c9Ac2EB8924bfE1b6a834E",
+          startBlock: 7437445
+        },
+        zkSyncSepolia: {
+          address: "0x78e35420e6A729D73Ad011c3bfDE39068B6F4317",
+          startBlock: 3108855
+        },
+      },
+    }
   },
 });
